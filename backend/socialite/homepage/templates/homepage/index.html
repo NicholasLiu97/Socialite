@@ -1,7 +1,16 @@
-<form method="post" action=".">
-    {% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Socialite</title>
+    </head>
+    <body>
+        <h1>SOCIALITE</h1>
+        <form method="post" action="{% url 'index' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form}}
+            <br>
+            <button>Submit</button>
+        </form>
+    </body>
+</html>
 
-    <input type="text" name="content"><br>
-
-    <button>Submit</button>
-</form>

@@ -1,9 +1,15 @@
 import tweepy
 import requests
+from django import forms
 from django.conf import settings
 from django.shortcuts import render, redirect
 
 # Create your views here.
+
+class NewPostForm(forms.Form):
+    img = forms.ImageField()
+    # task = forms.IntegerField(min_value=0, max_value=10)
+    content = forms.CharField(label="content")
 
 def publish_to_tw(content):
     # OAuth 2 Authentication
@@ -26,15 +32,26 @@ def publish_to_fb(content):
     
 def index(request):
     if request.method == 'POST':
-        content = request.POST.get('content', '')
-
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            content = form.cleaned_data["content"]
+            img = form.cleaned_data["img"]
+        else:
+            return render(request, "homepage/index.html", context={
+                "form":form
+            })
         if content:
             print('Content: ', content)
+            print(f"img: {img}")
 
             tw_response = publish_to_tw(content)
             fb_response = publish_to_fb(content)
+
             print(f"tw_post_response: {tw_response}")
             print(f"fb_post_response: {fb_response}")
+
             return redirect('index')
 
-    return render(request, 'homepage/index.html')
+    return render(request, 'homepage/index.html', context={
+        "form": NewPostForm()
+    })
