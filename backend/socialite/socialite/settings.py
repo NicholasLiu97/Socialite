@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,6 +71,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'socialite.wsgi.application'
+
+# Add .env variables anywhere before SECRET_KEY
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
+# UPDATE secret key
+TW_API_KEY = os.environ['TW_API_KEY']
+TW_API_KEY_SECRET = os.environ['TW_API_KEY_SECRET']
+TW_ACCESS_TOKEN = os.environ['TW_ACCESS_TOKEN']
+TW_ACCESS_TOKEN_SECRET = os.environ['TW_ACCESS_TOKEN_SECRET']
 
 
 # Database

@@ -1,3 +1,4 @@
 tweepy
 django
 requests
+python-dotenv
