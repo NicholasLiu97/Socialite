@@ -82,7 +82,8 @@ TW_API_KEY = os.environ['TW_API_KEY']
 TW_API_KEY_SECRET = os.environ['TW_API_KEY_SECRET']
 TW_ACCESS_TOKEN = os.environ['TW_ACCESS_TOKEN']
 TW_ACCESS_TOKEN_SECRET = os.environ['TW_ACCESS_TOKEN_SECRET']
-
+FB_PAGE_ID = os.environ['FB_PAGE_ID']
+FB_ACCESS_TOKEN = os.environ['FB_ACCESS_TOKEN']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
