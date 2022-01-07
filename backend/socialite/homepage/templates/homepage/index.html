@@ -5,7 +5,7 @@
     </head>
     <body>
         <h1>SOCIALITE</h1>
-        <form method="post" action="{% url 'index' %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'homepage:index' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{form}}
             <br>
