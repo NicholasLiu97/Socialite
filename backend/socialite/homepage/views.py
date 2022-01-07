@@ -21,35 +21,39 @@ def handle_uploaded_file(f, fname):
     except:
         pass
 
-    # with open(str(settings.BASE_DIR) + '/' + fname, 'wb+') as destination:
-    
     with open(str(settings.MEDIA_DIR) + '/' + fname, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
 
-def publish_to_tw(content):
-    # OAuth 2 Authentication
-    tw_client = tweepy.Client(consumer_key=settings.TW_API_KEY,
-                              consumer_secret=settings.TW_API_KEY_SECRET,
-                              access_token=settings.TW_ACCESS_TOKEN,
-                              access_token_secret=settings.TW_ACCESS_TOKEN_SECRET)
+def publish_to_tw(img, content):
+    # OAuth 1.0a
+    auth = tweepy.OAuthHandler(settings.TW_API_KEY, settings.TW_API_KEY_SECRET)
+    auth.set_access_token(settings.TW_ACCESS_TOKEN,
+                          settings.TW_ACCESS_TOKEN_SECRET)
+    api = tweepy.API(auth)
 
-    return tw_client.create_tweet(text=content)
+    media = api.media_upload(str(settings.MEDIA_DIR) + '/' + img)
+
+    print(media.media_id_string)
+
+    return api.update_status(content, media_ids=[media.media_id_string])
+
 
 def publish_to_fb(img, content):
     access_token = settings.FB_ACCESS_TOKEN
     graph_api = fb.GraphAPI(access_token=access_token)
     if img and content:
-        r = graph_api.put_photo(open(str(settings.MEDIA_DIR) + '/' + img, "rb"), message=content)
+        r = graph_api.put_photo(
+            open(str(settings.MEDIA_DIR) + '/' + img, "rb"), message=content)
 
     elif img:
-        r = graph_api.put_photo(open(str(settings.MEDIA_DIR) + '/' + img, "rb"))
+        r = graph_api.put_photo(
+            open(str(settings.MEDIA_DIR) + '/' + img, "rb"))
     else:
         r = graph_api.put_object("me", "feed", message=content)
-        
-    return r
 
+    return r
 
 
 def index(request):
@@ -69,7 +73,7 @@ def index(request):
             print('Content: ', content)
             print(f"img: {img}")
 
-            tw_response = publish_to_tw(content)
+            tw_response = publish_to_tw(img, content)
             fb_response = publish_to_fb(img, content)
 
             # print(f"tw_post_response: {tw_response}")
