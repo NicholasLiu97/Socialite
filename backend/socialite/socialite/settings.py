@@ -87,6 +87,9 @@ TW_ACCESS_TOKEN_SECRET = os.environ['TW_ACCESS_TOKEN_SECRET']
 FB_PAGE_ID = os.environ['FB_PAGE_ID']
 FB_ACCESS_TOKEN = os.environ['FB_ACCESS_TOKEN']
 
+# login_url
+LOGIN_URL = 'users:login'
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

@@ -5,6 +5,7 @@ from django import forms
 from django.conf import settings
 from django.shortcuts import render, redirect
 import facebook as fb
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -55,7 +56,7 @@ def publish_to_fb(img, content):
 
     return r
 
-
+@login_required
 def index(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)

@@ -16,6 +16,13 @@ def index(request):
 
 
 def login_view(request):
+    # if redirected from another page
+    if 'next' in request.GET:
+        return render(request, "users/login.html", context={
+                "message": "Please login first"
+        })
+
+    # login authentication
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -34,6 +41,7 @@ def login_view(request):
 
 
 def logout_view(request):
+    # django handles logout of user
     logout(request)
     return render(request, "users/login.html", {
         "message": "Logged Out"
